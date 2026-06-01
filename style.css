@@ -1,0 +1,362 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: "vazir";
+}
+
+@font-face {
+    font-family: "vazir";
+    src: url(../FONTS/Vazir-Bold.woff2);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "vazir";
+    src: url(../FONTS/Vazir-Medium.woff2);
+    font-weight: 500;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+header {
+    width: 100%;
+}
+
+#profile {
+    background: linear-gradient(180deg, #240046, #470BA7);
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    min-height: clamp(250px, 40vh, 400px);
+    padding: clamp(15px, 3%, 40px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: aliceblue;
+    position: relative;
+    z-index: 1;
+}
+
+#profile-pic {
+    border-radius: 100%;
+    width: clamp(100px, 25vw, 180px);
+    height: clamp(100px, 25vw, 180px);
+    background-image: url("maryam.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#sub-title {
+    font-size: clamp(14px, 2.5vw, 22px);
+    text-align: center;
+    padding: 0 15px;
+}
+
+#description {
+    width: 90%;
+    max-width: 900px;
+    margin-top: -60px;
+    background-color: aliceblue;
+    padding: clamp(20px, 5vw, 60px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 30px);
+    border-radius: 20px;
+    z-index: 2;
+    position: relative;
+}
+
+#about-text {
+    line-height: 1.8;
+    text-align: justify;
+}
+
+
+h2 {
+    color: #240046;
+    padding-bottom: 15px;
+}
+
+
+li {
+    list-style: none;
+}
+
+
+#skills-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+    gap: 15px;
+}
+
+#skills-items li {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    background-color: #470ba73b;
+    border-radius: 20px;
+    transition: 0.2s ease;
+}
+
+#skills-items li:hover {
+    background-color: #470ba7ef;
+    color: aliceblue;
+}
+
+
+#education-items li,
+#work-records-items li {
+    background: #fff;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+#portfolio {
+    width: 100%;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.portfolio-item {
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: 0.3s;
+}
+
+.portfolio-trigger {
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.portfolio-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-trigger img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.portfolio-trigger h3 {
+    color: #240046;
+}
+
+.portfolio-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 0;
+}
+
+.portfolio-item.active {
+    grid-column: 1 / -1;
+}
+
+.portfolio-item.active .portfolio-content {
+    max-height: 1000px;
+    margin-top: 15px;
+    padding: 0 5px 5px;
+}
+
+
+.portfolio-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.portfolio-gallery img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portfolio-gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ====== Modal نمایش تصاویر گالری ====== */
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  display: none;            /* در حالت عادی مخفی */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  direction: ltr;           /* برای اینکه دکمه × جای درست باشد، مهم نیست بدنه RTL است */
+}
+
+.image-modal.is-open {
+  display: flex;            /* وقتی باز است، وسط صفحه نشان داده می‌شود */
+}
+
+.image-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.image-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 80vh;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.image-modal-content img {
+  max-width: 90vw;   /* حداکثر ۹۰٪ عرض viewport */
+  max-height: 80vh;  /* حداکثر ۸۰٪ ارتفاع viewport */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+
+
+.image-modal-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  color: #000;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal-close:hover {
+  background: #f1f1f1;
+}
+
+@media (max-width: 600px) {
+  .image-modal-close {
+    top: -32px;
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+  }
+
+  .image-modal-content {
+    max-width: 95vw;
+    max-height: 75vh;
+  }
+
+  .image-modal-content img {
+    max-width: 95vw;
+    max-height: 75vh;
+  }
+}
+
+
+footer {
+    width: 100%;
+    padding: clamp(15px, 3vw, 30px);
+    text-align: center;
+    color: #666;
+    font-size: clamp(12px, 1.5vw, 14px);
+    margin-top: auto;
+}
+
+
+@media (min-width: 600px) {
+    #skills-items {
+        gap: 12px;
+    }
+
+    #skills-items li {
+        padding: 8px 18px;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    #description {
+        width: 85%;
+        padding: 40px 50px;
+    }
+
+    #education-items,
+    #work-records-items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    #education-items li,
+    #work-records-items li {
+        margin-bottom: 0;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    #description {
+        width: 75%;
+        max-width: 960px;
+        padding: 50px 60px;
+    }
+
+    #education-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1400px) {
+    #description {
+        max-width: 1100px;
+        padding: 60px 80px;
+    }
+}
